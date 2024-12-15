@@ -1,0 +1,1 @@
+<script src="./../static/redirect.js"></script>
