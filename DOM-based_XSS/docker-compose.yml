@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    image: timomangcut/dom-based_xss-web:latest
+    container_name: php_app
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=pgsql://postgres:123@db:5432/phuc
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: phuc
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "2345:5432"

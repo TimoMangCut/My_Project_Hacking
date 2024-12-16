@@ -16,6 +16,7 @@ document.getElementById('loginform').addEventListener('submit', function(event){
     xhr.onload = function(){
         if (xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
             if (response.status === 'success') {
                 alert('Login Successful');
                 window.localStorage.setItem('token', response.token);
