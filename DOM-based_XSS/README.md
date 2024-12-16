@@ -1,5 +1,7 @@
 # Mô phỏng lại một trang web có lỗi DOM based XSS để thực hành
 
+![](./images_in_README/Welcome.png)
+
 **Step 1: Tải folder DOM-based_XSS và chạy lệnh sau:`docker compose up -d`**
 
 **Step 2: Mở trình duyệt và truy cập `localhost`**
