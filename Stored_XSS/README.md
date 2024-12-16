@@ -2,7 +2,7 @@
 
 ![](./image_web/welcome.png)
 
-**Step 1: Tải folder `Stored_XSS` và chạy lệnh sau:docker `compose up -d`**
+**Step 1: Tải folder `Stored_XSS` và chạy lệnh sau: `docker compose up -d`**
 
 **Step 2: Mở trình duyệt và truy cập localhost**
 
