@@ -19,14 +19,14 @@ public class Signin extends HttpServlet {
         String password = request.getParameter("password");
 
         UserDAO userDAO = new UserDAO();
-        String result = userDAO.signin(username, password); // Trả về lỗi SQL nếu có
+        String result = userDAO.signin(username, password);
 
-        if (result.startsWith("✅")) { // Nếu đăng nhập thành công
+        if (result.startsWith("✅")) {
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             response.sendRedirect("/vnpt/view/search.jsp");
-        } else { // Nếu có lỗi SQL hoặc sai mật khẩu
-            request.setAttribute("errorMessage", result); // Hiển thị lỗi SQL nếu có
+        } else {
+            request.setAttribute("errorMessage", result);
             request.getRequestDispatcher("/view/signin.jsp").forward(request, response);
         }
     }

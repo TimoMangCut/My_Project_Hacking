@@ -9,27 +9,24 @@ import java.sql.Statement;
 public class UserDAO {
     private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/phuc";
     private static final String JDBC_USERNAME = "postgres";
-    private static final String JDBC_PASSWORD = "phuciutram123";
+    private static final String JDBC_PASSWORD = "123123";
 
     private Connection getConnection() throws SQLException {
         try {
-            Class.forName("org.postgresql.Driver"); // Load driver PostgreSQL
+            Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             throw new SQLException("Không tìm thấy driver PostgreSQL", e);
         }
         return DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
     }
 
-    /**
-     * Đăng nhập - Nếu có lỗi SQL, trả về lỗi thay vì chỉ trả về false.
-     */
     public String signin(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "';";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            boolean hasResults = stmt.execute(sql); // Dùng execute() để hỗ trợ SQL Injection test
+            boolean hasResults = stmt.execute(sql);
             if (hasResults) {
                 try (ResultSet rs = stmt.getResultSet()) {
                     if (rs.next()) {
@@ -39,23 +36,20 @@ public class UserDAO {
             }
             return "❌ Sai tài khoản hoặc mật khẩu.";
         } catch (SQLException e) {
-            return "🚨 Lỗi SQL: " + e.getMessage(); // Trả về lỗi SQL trực tiếp
+            return "🚨 Lỗi SQL: " + e.getMessage();
         }
     }
 
-    /**
-     * Đăng ký - Nếu có lỗi SQL, trả về lỗi ra màn hình.
-     */
     public String signup(String username, String password) {
         String sql = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password + "');";
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
 
-            stmt.execute(sql); // Dùng execute() để hỗ trợ SQL Injection test
+            stmt.execute(sql);
             return "✅ Đăng ký thành công!";
         } catch (SQLException e) {
-            return "🚨 Lỗi SQL: " + e.getMessage(); // Trả về lỗi SQL trực tiếp
+            return "🚨 Lỗi SQL: " + e.getMessage();
         }
     }
     public String search(String search) {
@@ -65,11 +59,11 @@ public class UserDAO {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             
-            boolean isResultSet = stmt.execute(sql); // Trả về true nếu kết quả là ResultSet
+            boolean isResultSet = stmt.execute(sql);
             result.append("SQL Query: ").append(sql).append("\n\n");
             
             boolean found = false;
-            while (isResultSet) { // Xử lý nhiều ResultSet
+            while (isResultSet) {
                 try (ResultSet rs = stmt.getResultSet()) {
                     while (rs.next()) {
                         found = true;
@@ -80,7 +74,7 @@ public class UserDAO {
                               .append("\n-------------------\n");
                     }
                 }
-                isResultSet = stmt.getMoreResults(); // Kiểm tra có ResultSet tiếp theo không
+                isResultSet = stmt.getMoreResults();
             }
             
             if (!found) {
@@ -92,30 +86,3 @@ public class UserDAO {
             return "🚨 SQL Error: " + e.getMessage() + "\nQuery: " + sql;
         }
     }
-
-
-
-
-
-
-    /**
-     * Xóa người dùng - Cố tình để lỗ hổng SQL Injection.
-     */
-    // public String deleteUser(String username) {
-    //     String sql = "DELETE FROM users WHERE username = '" + username + "';";
-    //     System.out.println("[DEBUG] Executing query: " + sql); // Log truy vấn SQL để kiểm tra
-
-    //     try (Connection conn = getConnection();
-    //          Statement stmt = conn.createStatement()) {
-
-    //         int rowsAffected = stmt.executeUpdate(sql);
-    //         if (rowsAffected > 0) {
-    //             return "✅ Người dùng đã bị xóa!";
-    //         } else {
-    //             return "❌ Không tìm thấy người dùng.";
-    //         }
-    //     } catch (SQLException e) {
-    //         return "🚨 Lỗi SQL: " + e.getMessage(); // Trả về lỗi SQL trực tiếp
-    //     }
-    // }
-}

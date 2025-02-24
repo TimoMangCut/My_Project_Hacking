@@ -25,12 +25,12 @@ public class Signup extends HttpServlet {
         }
 
         UserDAO userDAO = new UserDAO();
-        String result = userDAO.signup(username, password); // Nhận về lỗi SQL nếu có
+        String result = userDAO.signup(username, password);
 
-        if (result.startsWith("✅")) { // Nếu đăng ký thành công
+        if (result.startsWith("✅")) {
             response.sendRedirect("/view/signin.jsp?success=1");
-        } else { // Nếu có lỗi SQL hoặc username đã tồn tại
-            request.setAttribute("errorMessage", result); // Hiển thị lỗi SQL nếu có
+        } else {
+            request.setAttribute("errorMessage", result);
             request.getRequestDispatcher("/view/signup.jsp").forward(request, response);
         }
     }
