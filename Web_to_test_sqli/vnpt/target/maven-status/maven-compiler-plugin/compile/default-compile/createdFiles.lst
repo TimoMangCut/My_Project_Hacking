@@ -1,0 +1,6 @@
+dao\UserDAO.class
+controller\Search.class
+controller\Signin.class
+controller\Signup.class
+model\user.class
+dao\PostgresTest.class
