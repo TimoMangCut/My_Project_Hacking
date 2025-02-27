@@ -2,6 +2,7 @@
 
 ### REPO này chứa Source Code ứng dụng WEB PHP với design pattern MVC
 Có tính năng đăng nhập
+
 Tồn tại lỗ hổng SQL Injection khi không validate Input và không sử dụng Prepared Statement
 
 ### Công cụ brute force "brute-force-tools.py"
