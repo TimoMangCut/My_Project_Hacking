@@ -10,6 +10,7 @@ Công cụ này có tính năng brute-force tuần tự
 - databases name
 - tables name
 - columns name
+
 *Công cụ này hoạt động theo cơ chế khai thác lỗi time-based. Chỉ cần run là dump hết databases,tables,columns*
 
 *Chúc các bạn đọc vui vẻ, nếu có sai sót. Mong được góp ý thêm.*
