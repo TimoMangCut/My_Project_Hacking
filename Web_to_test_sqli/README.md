@@ -1,6 +1,6 @@
 ## WEB TO TEST SQL INJECTION
 
-### REPO này chứa source code ứng dụng web Java JSP Servlet với design pattern MVC, chạy Maven
+### REPO này chứa source code ứng dụng web Java JSP Servlet với design pattern MVC, Maven
 
 Có các tính năng như : 
 - Đăng ký
