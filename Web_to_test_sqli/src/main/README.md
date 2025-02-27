@@ -1,4 +1,4 @@
-## REPO này chứa Source Code ứng dụng Web Java JSP Servlet
+## Folder này chứa Source Code ứng dụng Web Java JSP Servlet
 Có các tính năng như :
 - Đăng ký
 - Đăng nhập
