@@ -43,7 +43,7 @@ Vậy là ta đã biết trang web này có 3 chức năng chính
 
 ### **2/Sơ lược về source code**
 
-- Đến với source code → [Source  Code Web](https://github.com/TimoMangCut/My_Project_Hacking/tree/main/Web_to_test_sqli/vnpt)
+- Đến với source code → [Source  Code Web](https://github.com/TimoMangCut/My_Project_Hacking/tree/main/Web_to_test_sqli/)
 - Còn đây là phần code xử lý các câu truy vấn SQL
     
     ```java
